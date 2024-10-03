@@ -1,0 +1,6 @@
+@PeopleFinder.WebApi_HostAddress = http://localhost:5009
+
+GET {{PeopleFinder.WebApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

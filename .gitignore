@@ -1,0 +1,10 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/PeopleFinder.BusinessService/bin/Debug/net8.0
+/PeopleFinder.BusinessService/obj
+/PeopleFinder.DataAccess/bin/Debug/net8.0
+/PeopleFinder.DataAccess/obj
+/PeopleFinder.Domain/bin/Debug/net8.0
+/PeopleFinder.Domain/obj
