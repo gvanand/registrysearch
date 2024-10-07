@@ -33,9 +33,16 @@ namespace PeopleFinder.WebApi.Controllers
         }
 
         [HttpPost("person/bulk")]
-        public BulkSearchResultDto BulkSearchRegistry([FromQuery] string correlationId, BulkSearchRequestDto bulkSearchRequest)
+        public async Task<BulkSearchResultDto> BulkSearchRegistry([FromQuery] string correlationId, BulkSearchRequestDto bulkSearchRequest)
         {
-            return new BulkSearchResultDto();
+            var requiestIds = bulkSearchRequest.PayLoad.Select(s => s.IndividualRequestId).ToArray();
+            if (requiestIds.Count() != requiestIds.Distinct().Count())
+            {
+                throw new ArgumentException("Individual Request Id has duplicate values");
+
+            }
+            var result = await this.service.SearchBulk(correlationId, bulkSearchRequest);
+            return result;
         }
 
     }

@@ -11,7 +11,7 @@ namespace PeopleFinder.BusinessService.Dtos
     public class BulkSearchRequestDto
     {
         public IndividualMetaData MetaData { get; set; }
-        public IndividualPayLoad[] PayLoad { get; set; }
+        public BulkPayLoad[] PayLoad { get; set; }
     }
 
     public class BulkPayLoad : IndividualPayLoad

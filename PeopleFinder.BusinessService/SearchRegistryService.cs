@@ -26,19 +26,27 @@ namespace PeopleFinder.BusinessService
 
         public async Task<BulkSearchResultDto> SearchBulk(string CorrelationId, BulkSearchRequestDto searchRequestDto)
         {
-            throw new NotImplementedException();
+            BulkSearchResultDto bulkSearchResultDto = new BulkSearchResultDto(); 
+            bulkSearchResultDto.Results = new Dictionary<string, List<IndividualResultDto>>();
+            foreach (var reqDto in searchRequestDto.PayLoad)
+            {
+                var registry = await SearchRegistry(reqDto);
+                bulkSearchResultDto.RecordsProccessed = registry.Count();
+                bulkSearchResultDto.Results.Add( reqDto.IndividualRequestId, registry.ToList()) ;
+            }
+            return bulkSearchResultDto;
         }
 
 
         private async Task<IEnumerable<IndividualResultDto>> SearchRegistry(IndividualPayLoad payLoad)
         {
-            var registry = this.dbContext.Registry.Where(f=>f.FirstName.Contains(payLoad.FirstName) || f.LastName.Contains(payLoad.LastName)).ToList();
+            var registry = this.dbContext.Registry.Where(f => f.FirstName.Contains(payLoad.FirstName) || f.LastName.Contains(payLoad.LastName)).ToList();
             string misConductComment = "Certification number: {0}\r\n\r\nDrivers license number: {1}\r\n\r\nCertification status: {2}\r\n\r\nEmployer/Facility: {3}\r\n\r\nCase number: {4}";
             return registry.Select(s => new IndividualResultDto
             {
-                SearchStatus = payLoad.FirstName == s.FirstName && s.LastName == payLoad.LastName ? SearchStatus.Found.ToString():SearchStatus.PotentialMatch.ToString(),
+                SearchStatus = payLoad.FirstName == s.FirstName && s.LastName == payLoad.LastName ? SearchStatus.Found.ToString() : SearchStatus.PotentialMatch.ToString(),
                 DateOfBirth = s.DOB.ToString(),
-                DeterminationComment =null,
+                DeterminationComment = null,
                 Name = new PeopleName { First = s.FirstName, Last = s.LastName },
                 Id = new List<IdSSN> { new IdSSN { IdNumber = s.DriversLicenseNo, IdType = "DriversLicenseNumber" } },
                 MisConducts = new List<MisConduct> {
