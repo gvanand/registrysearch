@@ -1,18 +1,13 @@
-﻿using Microsoft.VisualBasic;
-using PeopleFinder.BusinessService.Dtos;
-using PeopleFinder.DataAccess;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using RegistrySearch.BusinessService.Dtos;
+using RegistrySearch.DataAccess;
+using RegistrySearch.Domain;
 
-namespace PeopleFinder.BusinessService
+namespace RegistrySearch.BusinessService
 {
     public class SearchRegistryService : ISearchRegistryService
     {
-        private PeopleFinderDbContext dbContext { get; set; }
-        public SearchRegistryService(PeopleFinderDbContext dbContext)
+        private RegistryDbContext dbContext { get; set; }
+        public SearchRegistryService(RegistryDbContext dbContext)
         {
             this.dbContext = dbContext;
         }
@@ -26,17 +21,48 @@ namespace PeopleFinder.BusinessService
 
         public async Task<BulkSearchResultDto> SearchBulk(string CorrelationId, BulkSearchRequestDto searchRequestDto)
         {
-            BulkSearchResultDto bulkSearchResultDto = new BulkSearchResultDto(); 
+            var bulkSearch = this.AddBulkSearchResult(CorrelationId, searchRequestDto);
+            BulkSearchResultDto bulkSearchResultDto = new BulkSearchResultDto();
             bulkSearchResultDto.Results = new Dictionary<string, List<IndividualResultDto>>();
             foreach (var reqDto in searchRequestDto.PayLoad)
             {
                 var registry = await SearchRegistry(reqDto);
+                bulkSearch.NoOfRequestCompleted += 1;
+                this.dbContext.Update<BulkSearchResult>(bulkSearch);
+                if(bulkSearch.NoOfRequestCompleted == bulkSearch.NoOfRequest)
+                {
+                    bulkSearch.CompletedAt = DateTime.UtcNow;
+                    bulkSearch.Status = "Completed";
+                }
+                this.dbContext.SaveChanges();
                 bulkSearchResultDto.RecordsProccessed = registry.Count();
-                bulkSearchResultDto.Results.Add( reqDto.IndividualRequestId, registry.ToList()) ;
+                bulkSearchResultDto.Results.Add(reqDto.IndividualRequestId, registry.ToList());
             }
             return bulkSearchResultDto;
         }
+        private BulkSearchResult AddBulkSearchResult(string CorrelationId, BulkSearchRequestDto searchRequestDto)
+        {
+            BulkSearchResult bulkSearchResult = new BulkSearchResult
+            {
+                CorrelationId = CorrelationId,
+                NoOfRequest = searchRequestDto.PayLoad.Count(),
+                NoOfRequestCompleted =0,
+                SubmittedAt = DateTime.UtcNow,
+                RequestedByAgency = searchRequestDto.MetaData.Agency,
+                RequestedByUser = searchRequestDto.MetaData.UserId,
+                 Status= "InProgress"
+            };
+            try
+            {
+                this.dbContext.Add(bulkSearchResult);
+                this.dbContext.SaveChanges();
+                return bulkSearchResult;
+            }
+            catch (Exception ex) {
 
+                return null;
+            }
+        }
 
         private async Task<IEnumerable<IndividualResultDto>> SearchRegistry(IndividualPayLoad payLoad)
         {

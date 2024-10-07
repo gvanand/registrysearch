@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace PeopleFinder.Domain
+namespace RegistrySearch.Domain
 {
     [Table("Registry")]
     public class PeopleRegistry

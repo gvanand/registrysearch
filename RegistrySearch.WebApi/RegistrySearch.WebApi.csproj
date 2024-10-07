@@ -14,8 +14,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PeopleFinder.BusinessService\PeopleFinder.BusinessService.csproj" />
-    <ProjectReference Include="..\PeopleFinder.DataAccess\PeopleFinder.DataAccess.csproj" />
+    <ProjectReference Include="..\RegistrySearch.BusinessService\RegistrySearch.BusinessService.csproj" />
+    <ProjectReference Include="..\RegistrySearch.DataAccess\RegistrySearch.DataAccess.csproj" />
   </ItemGroup>
 
 </Project>

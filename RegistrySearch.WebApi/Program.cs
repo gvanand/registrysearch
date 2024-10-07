@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using PeopleFinder.BusinessService;
-using PeopleFinder.BusinessService.Dtos;
-using PeopleFinder.DataAccess;
+using RegistrySearch.BusinessService;
+using RegistrySearch.BusinessService.Dtos;
+using RegistrySearch.DataAccess;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +18,7 @@ IConfiguration _configuration = new ConfigurationBuilder()
             .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
             .Build();
 Console.Write(_configuration["ConnnectionStrings:RegistryDB"]);
-builder.Services.AddDbContext<PeopleFinderDbContext>(options =>
+builder.Services.AddDbContext<RegistryDbContext>(options =>
 {
     options.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=PeopleFinder;Trusted_Connection=True;ConnectRetryCount=0", builder =>
         {

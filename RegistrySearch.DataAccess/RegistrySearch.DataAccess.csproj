@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PeopleFinder.Domain\PeopleFinder.Domain.csproj" />
+    <ProjectReference Include="..\RegistrySearch.Domain\RegistrySearch.Domain.csproj" />
   </ItemGroup>
 
 </Project>

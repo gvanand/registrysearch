@@ -10,3 +10,9 @@
 /PeopleFinder.Domain/obj
 /.vs/Registrysearch/v17
 /.vs
+/RegistrySearch.BusinessService/bin/Debug/net8.0
+/RegistrySearch.BusinessService/obj
+/RegistrySearch.DataAccess/bin/Debug/net8.0
+/RegistrySearch.DataAccess/obj
+/RegistrySearch.Domain/bin/Debug/net8.0
+/RegistrySearch.Domain/obj

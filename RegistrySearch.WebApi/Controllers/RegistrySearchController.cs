@@ -1,10 +1,10 @@
 ﻿
 
 using Microsoft.AspNetCore.Mvc;
-using PeopleFinder.BusinessService;
-using PeopleFinder.BusinessService.Dtos;
+using RegistrySearch.BusinessService;
+using RegistrySearch.BusinessService.Dtos;
 
-namespace PeopleFinder.WebApi.Controllers
+namespace RegistrySearch.WebApi.Controllers
 {
     [ApiController]
     [Route("[Controller]")]

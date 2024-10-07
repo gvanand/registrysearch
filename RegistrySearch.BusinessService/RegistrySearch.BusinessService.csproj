@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PeopleFinder.DataAccess\PeopleFinder.DataAccess.csproj" />
+    <ProjectReference Include="..\RegistrySearch.DataAccess\RegistrySearch.DataAccess.csproj" />
   </ItemGroup>
 
 </Project>

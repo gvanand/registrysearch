@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-
-namespace PeopleFinder.BusinessService.Dtos
+﻿namespace RegistrySearch.BusinessService.Dtos
 {
     public class BulkSearchResultDto
     {
