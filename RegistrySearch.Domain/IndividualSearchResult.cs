@@ -9,7 +9,7 @@ namespace RegistrySearch.Domain
     public class IndividualSearchResult
     {
         [Key]
-        public Guid RequestedId { get; set; }
+        public string RequestedId { get; set; }
         public string CorrelationId { get; set; }
         public string IndividualRequest { get; set; }
         public string IndividualResponse { get; set; }
@@ -21,7 +21,7 @@ namespace RegistrySearch.Domain
     {
         public void Configure(EntityTypeBuilder<IndividualSearchResult> builder)
         {
-           builder.HasKey(x => x.CorrelationId);
+           builder.HasKey(x => x.RequestedId);
         }
     }
 }

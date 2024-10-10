@@ -4,5 +4,6 @@
     {
         Task<IEnumerable<IndividualResultDto>> SearchIndividual(string CorrelationId, SearchRequestDto searchRequestDto);
         Task<BulkSearchResultDto> SearchBulk(string CorrelationId, BulkSearchRequestDto searchRequestDto);
+        Task<BulkSearchResultDto> GetSearchBulk(string CorrelationId);
     }
 }

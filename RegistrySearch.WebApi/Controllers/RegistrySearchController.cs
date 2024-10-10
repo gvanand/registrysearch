@@ -27,13 +27,14 @@ namespace RegistrySearch.WebApi.Controllers
             return result;
         }
         [HttpGet("person/bulk")]
-        public BulkSearchResultDto GetBulkRegistry(string correlationId)
+        public async Task<BulkSearchResultDto> GetBulkRegistry(string correlationId)
         {
-            return new BulkSearchResultDto();
+            var result = await this.service.GetSearchBulk(correlationId);
+            return result;
         }
 
         [HttpPost("person/bulk")]
-        public async Task<BulkSearchResultDto> BulkSearchRegistry([FromQuery] string correlationId, BulkSearchRequestDto bulkSearchRequest)
+        public async Task BulkSearchRegistry([FromQuery] string correlationId, BulkSearchRequestDto bulkSearchRequest)
         {
             var requiestIds = bulkSearchRequest.PayLoad.Select(s => s.IndividualRequestId).ToArray();
             if (requiestIds.Count() != requiestIds.Distinct().Count())
@@ -41,8 +42,7 @@ namespace RegistrySearch.WebApi.Controllers
                 throw new ArgumentException("Individual Request Id has duplicate values");
 
             }
-            var result = await this.service.SearchBulk(correlationId, bulkSearchRequest);
-            return result;
+            var result =  this.service.SearchBulk(correlationId, bulkSearchRequest);
         }
 
     }
